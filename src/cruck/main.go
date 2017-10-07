@@ -1,7 +1,6 @@
 package main
 
 import (
-  "log"
   "net/http"
   "encoding/json"
   "../common"
@@ -14,9 +13,10 @@ func posteventsHandler(rw http.ResponseWriter, request *http.Request) {
 
   err := decoder.Decode(&events)
   if err != nil {
+    common.Log.Error(err.Error())
   } else {
     for _, element := range events.Events {
-      eventData := element.ToString()
+      eventData := element.String()
       common.Log.Info(eventData)
     }
   } 
@@ -25,12 +25,14 @@ func posteventsHandler(rw http.ResponseWriter, request *http.Request) {
 }
 
 
-func main() {
-  
+func main() {  
   common.InitLog("cruckserver.log")
   
   http.HandleFunc("/postevents", posteventsHandler)
 
-  log.Fatal(http.ListenAndServe(":8080", nil))
+  err := http.ListenAndServe(":8080", nil)
+  if err != nil {
+    common.Log.Error(err.Error())
+  }  
 }
 

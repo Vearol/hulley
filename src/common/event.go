@@ -1,7 +1,7 @@
 package common
 
 import (
-  s "strings"
+  "strings"
   "strconv"
 )
 
@@ -15,11 +15,12 @@ type EventSlice struct {
   Events []Event `json:"events"`
 }
 
-func (event Event) ToString() string{
+func (event *Event) String() string {
   timestamp := strconv.Itoa(event.Timestamp)
   eventId := strconv.Itoa(event.EventId)
   userId := strconv.Itoa(event.UserId)
 
-  return s.Join([]string{timestamp, eventId, userId}, "; ")
+  result := strings.Join([]string { timestamp, eventId, userId }, "; ")
+  return result
 }
 
