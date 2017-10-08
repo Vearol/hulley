@@ -6,10 +6,11 @@ import (
 
 var Log *zap.Logger;
 
-func InitLog(logFilepath string) {
+func InitLog(logFilepaths []string) {
   
   config := zap.NewProductionConfig()
-  config.OutputPaths = []string { logFilepath }
+  
+  config.OutputPaths = logFilepaths
   
   zapLog, _ := config.Build()
 
@@ -17,5 +18,5 @@ func InitLog(logFilepath string) {
   
   defer Log.Sync()
 
-  Log.Info("Logging initialized to " + logFilepath)
+  Log.Info("Logging initialized to " + logFilepaths[0])
 }
